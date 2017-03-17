@@ -1,0 +1,5 @@
+language: objective-c
+script: 
+  - fastlane CI
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
