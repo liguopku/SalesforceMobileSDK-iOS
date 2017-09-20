@@ -46,8 +46,12 @@ NSString * const CSFNetworkErrorDomain = @"CSFNetworkErrorDomain";
 
 static void * kObservingKey = &kObservingKey;
 
+NSString *CSFNetworkInstanceKeyUserPrefix(SFUserAccount *user) {
+    return [NSString stringWithFormat:@"%@-%@-", user.credentials.organizationId, user.credentials.userId];
+}
+
 NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
-    return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
+    return [NSString stringWithFormat:@"%@%@", CSFNetworkInstanceKeyUserPrefix(user), user.communityId];
 }
 
 @interface CSFNetwork() <SFAuthenticationManagerDelegate>
@@ -70,7 +74,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
 #pragma mark -
 #pragma mark object lifecycle
 
-static NSMutableDictionary *SharedInstances = nil;
+static NSMutableDictionary<NSString*, CSFNetwork*> *SharedInstances = nil;
 
 + (void)initialize {
     if (self == [CSFNetwork class]) {
@@ -111,10 +115,14 @@ static NSMutableDictionary *SharedInstances = nil;
     return SharedInstances[key];
 }
 
-+ (void)removeSharedInstance:(SFUserAccount*)userAccount {
++ (void)removeSharedInstances:(SFUserAccount*)userAccount {
     @synchronized (SharedInstances) {
-        NSString *key = CSFNetworkInstanceKey(userAccount);
-        [SharedInstances removeObjectForKey:key];
+        NSArray<NSString*> *networkKeys = [[SharedInstances allKeys] copy];
+        NSIndexSet *matchingKeyIndexes = [networkKeys indexesOfObjectsPassingTest:^BOOL(NSString *obj, NSUInteger idx, BOOL *stop) {
+            return [obj hasPrefix:CSFNetworkInstanceKeyUserPrefix(userAccount)];
+        }];
+        NSArray<NSString *> *matchingUserAccountKeys = [networkKeys objectsAtIndexes:matchingKeyIndexes];
+        [SharedInstances removeObjectsForKeys:matchingUserAccountKeys];
     }
 }
 
@@ -494,7 +502,7 @@ static NSMutableDictionary *SharedInstances = nil;
 #pragma mark - SFAuthenticationManagerDelegate
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
-    [[self class] removeSharedInstance:user];
+    [[self class] removeSharedInstances:user];
 }
 
 
