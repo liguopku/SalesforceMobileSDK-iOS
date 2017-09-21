@@ -282,8 +282,7 @@ static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 }
 
 - (void)stopAuthentication {
-    [self.view stopLoading];
-    
+    [_view stopLoading];
     [self.session invalidateAndCancel];
     _session = nil;
     
