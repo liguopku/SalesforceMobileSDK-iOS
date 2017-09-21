@@ -232,7 +232,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 if (error.code == -999) {
                     [strongSelf notifyDelegateOfCancel:delegate request:request];
                 } else {
-                    [strongSelf notifyDelegateOfFailure:delegate request:request error:error];
+                    [strongSelf notifyDelegateOfFailure:delegate request:request error:error rawResponse:response];
                 }
                 return;
             }
@@ -277,9 +277,9 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                     } error:^(NSError *refreshError) {
                         __strong typeof(weakSelf) strongSelf = weakSelf;
                         [SFSDKCoreLogger e:[strongSelf class] format:@"Failed to refresh expired session. Error: %@", refreshError];
-                        [strongSelf notifyDelegateOfFailure:delegate request:request error:refreshError];
+                        [strongSelf notifyDelegateOfFailure:delegate request:request error:refreshError rawResponse:response];
                         strongSelf.pendingRequestsBeingProcessed = YES;
-                        [strongSelf flushPendingRequestQueue:refreshError];
+                        [strongSelf flushPendingRequestQueue:refreshError rawResponse:response];
                         strongSelf.sessionRefreshInProgress = NO;
                         strongSelf.oauthSessionRefresher = nil;
                         if ([refreshError.domain isEqualToString:kSFOAuthErrorDomain] && refreshError.code == kSFOAuthErrorInvalidGrant) {
@@ -296,7 +296,7 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
             }
         } else {
             NSError *retryError = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:nil];
-            [self notifyDelegateOfFailure:delegate request:request error:retryError];
+            [self notifyDelegateOfFailure:delegate request:request error:retryError rawResponse:response];
         }
     } else {
 
@@ -309,12 +309,12 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                     if (data.length == 0) {
                         data = nil;
                     }
-                    [self notifyDelegateOfResponse:delegate request:request data:data];
+                    [self notifyDelegateOfResponse:delegate request:request data:data rawResponse:response];
                 } else {
-                    [self notifyDelegateOfResponse:delegate request:request data:jsonDict];
+                    [self notifyDelegateOfResponse:delegate request:request data:jsonDict rawResponse:response];
                 }
             } else {
-                [self notifyDelegateOfResponse:delegate request:request data:data];
+                [self notifyDelegateOfResponse:delegate request:request data:data rawResponse:response];
             }
         } else {
             if (!error) {
@@ -335,16 +335,16 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
                 }
                 error = [[NSError alloc] initWithDomain:response.URL.absoluteString code:statusCode userInfo:errorDict];
             }
-            [self notifyDelegateOfFailure:delegate request:request error:error];
+            [self notifyDelegateOfFailure:delegate request:request error:error rawResponse:response];
         }
     }
 }
 
--(void)flushPendingRequestQueue:(NSError *)error {
+-(void)flushPendingRequestQueue:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
     @synchronized (self) {
         NSSet *pendingRequests = [self.activeRequests copy];
         for (SFRestRequest *request in pendingRequests) {
-            [self notifyDelegateOfFailure:request.delegate request:request error:error];
+            [self notifyDelegateOfFailure:request.delegate request:request error:error rawResponse:rawResponse];
         }
         self.pendingRequestsBeingProcessed = NO;
     }
@@ -360,16 +360,16 @@ __strong static NSDateFormatter *httpDateFormatter = nil;
     }
 }
 
-- (void)notifyDelegateOfResponse:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request data:(id)data {
-    if ([delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
-        [delegate request:request didLoadResponse:data];
+- (void)notifyDelegateOfResponse:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request data:(id)data rawResponse:(NSURLResponse *)rawResponse {
+    if ([delegate respondsToSelector:@selector(request:didLoadResponse:rawResponse:)]) {
+        [delegate request:request didLoadResponse:data rawResponse:rawResponse];
     }
     [self removeActiveRequestObject:request];
 }
 
-- (void)notifyDelegateOfFailure:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request error:(NSError *)error {
-    if ([delegate respondsToSelector:@selector(request:didFailLoadWithError:)]) {
-        [delegate request:request didFailLoadWithError:error];
+- (void)notifyDelegateOfFailure:(id<SFRestDelegate>)delegate request:(SFRestRequest *)request error:(NSError *)error rawResponse:(NSURLResponse *)rawResponse {
+    if ([delegate respondsToSelector:@selector(request:didFailLoadWithError:rawResponse:)]) {
+        [delegate request:request didFailLoadWithError:error rawResponse:rawResponse];
     }
     [self removeActiveRequestObject:request];
 }
