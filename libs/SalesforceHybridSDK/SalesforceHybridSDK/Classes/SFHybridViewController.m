@@ -567,7 +567,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                  if ([self logoutOnInvalidCredentials:error]) {
-                     [SFSDKHybridLogger e:[strongSelf class] message:@"Could not refresh expired session. Logging out."];
+                     [SFSDKHybridLogger e:[self class] message:@"Could not refresh expired session. Logging out."];
                      NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
@@ -657,7 +657,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                  if ([self logoutOnInvalidCredentials:error]) {
-                    [SFSDKHybridLogger e:[strongSelf class] message:@"Could not refresh expired session. Logging out."];
+                    [SFSDKHybridLogger e:[self class] message:@"Could not refresh expired session. Logging out."];
                      NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
