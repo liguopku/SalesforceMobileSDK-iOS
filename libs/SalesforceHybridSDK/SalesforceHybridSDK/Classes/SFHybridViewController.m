@@ -558,27 +558,25 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
              * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
-            __weak typeof(self) weakSelf = self;
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
              refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
              completion:^(SFOAuthInfo *authInfo, SFUserAccount *userAccount) {
                  [SFUserAccountManager sharedInstance].currentUser = userAccount;
                  // Reset the user agent back to Cordova.
-                 [weakSelf authenticationCompletion:refreshUrl authInfo:authInfo];
+                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                 __strong typeof(weakSelf) strongSelf = weakSelf;
-                 if ([strongSelf logoutOnInvalidCredentials:error]) {
-                     [SFSDKHybridLogger e:[strongSelf class] message:@"Could not refresh expired session. Logging out."];
+                 if ([self logoutOnInvalidCredentials:error]) {
+                     [SFSDKHybridLogger e:[self class] message:@"Could not refresh expired session. Logging out."];
                      NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
-                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
+                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
                      [[SFAuthenticationManager sharedManager] logout];
                  } else {
                      
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
-                     [strongSelf loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
                  }
              }];
             shouldAllowRequest = NO;
@@ -649,7 +647,6 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
              * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
              * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
-            __weak typeof(self) weakSelf = self;
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
              refreshCredentials:[SFUserAccountManager sharedInstance].currentUser.credentials
@@ -657,20 +654,19 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
                  [SFUserAccountManager sharedInstance].currentUser = userAccount;
 
                  // Reset the user agent back to Cordova.
-                 [weakSelf authenticationCompletion:refreshUrl authInfo:authInfo];
+                 [self authenticationCompletion:refreshUrl authInfo:authInfo];
              } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-                 __strong typeof(weakSelf) strongSelf = weakSelf;
-                 if ([strongSelf logoutOnInvalidCredentials:error]) {
-                    [SFSDKHybridLogger e:[strongSelf class] message:@"Could not refresh expired session. Logging out."];
+                 if ([self logoutOnInvalidCredentials:error]) {
+                    [SFSDKHybridLogger e:[self class] message:@"Could not refresh expired session. Logging out."];
                      NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
                      attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
                      attributes[@"errorDescription"] = error.localizedDescription;
-                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([strongSelf class]) attributes:attributes];
+                     [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
                      [[SFAuthenticationManager sharedManager] logout];
                  } else {
                      
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
-                     [strongSelf loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
+                     [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
                  }
              }];
             return NO;
