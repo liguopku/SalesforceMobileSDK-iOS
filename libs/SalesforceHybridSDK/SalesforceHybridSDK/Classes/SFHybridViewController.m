@@ -433,7 +433,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
         NSRange range = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
         NSString *newReturnUrl = [returnUrl substringWithRange: range];
         if(isEncoded) newReturnUrl = [newReturnUrl stringByRemovingPercentEncoding];
-        [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"%@", newReturnUrl]];
+        [SFSDKHybridLogger d:[self class] message:newReturnUrl];
         return [self frontDoorUrlWithReturnUrl: newReturnUrl returnUrlIsEncoded:TRUE createAbsUrl: FALSE];
     }
     NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByURLEncoding]);

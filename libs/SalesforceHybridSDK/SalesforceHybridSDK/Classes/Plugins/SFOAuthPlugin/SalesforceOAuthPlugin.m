@@ -97,7 +97,7 @@
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command getCachedCredentials:(BOOL)getCachedCredentials
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticate:getCachedCredentials:"]];
+    [SFSDKHybridLogger d:[self class] message:@"authenticate:getCachedCredentials:"];
     NSString* callbackId = command.callbackId;
     SFOAuthPluginAuthSuccessBlock completionBlock = ^(SFOAuthInfo *authInfo, NSDictionary *authDict) {
         [self authenticationCompletion:authDict callbackId:callbackId];
@@ -131,7 +131,7 @@
 
 - (void)authenticationCompletion:(NSDictionary *)authDict callbackId:(NSString *)callbackId
 {
-    [SFSDKHybridLogger d:[self class] format:[NSString stringWithFormat:@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration."]];
+    [SFSDKHybridLogger d:[self class] message:@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration."];
 
     // Call back to the client with the authentication credentials.
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
