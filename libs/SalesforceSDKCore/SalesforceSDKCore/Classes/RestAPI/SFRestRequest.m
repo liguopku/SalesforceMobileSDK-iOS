@@ -207,8 +207,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 #pragma mark - Upload
 
-- (void)addPostFileData:(NSData *)fileData description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
-    NSString *mpeBoundary = @"************************";
+- (void)addPostFileData:(NSData *)fileData paramName:(NSString*)paramName description:(NSString *)description fileName:(NSString *)fileName mimeType:(NSString *)mimeType {
+    NSString *mpeBoundary = [[NSUUID UUID] UUIDString];
     NSString *mpeSeparator = @"--";
     NSString *newline = @"\r\n";
     NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=fileData; filename=\"%@\"", fileName];
@@ -231,6 +231,32 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         [body appendData:jsonData];
     }
     [body appendData:[[NSString stringWithFormat:@"%@%@%@", mpeSeparator, mpeBoundary, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    //PART 2
+    if (fileData) {
+        if (!mimeType) {
+            mimeType = @"application/octet-stream";
+        }
+        [body appendData:[self multiPartRequestBodyForkey:paramName mimeType:mimeType fileName:fileName file:fileData]];
+        [body appendData:[[NSString stringWithFormat:@"%@%@%@%@", mpeSeparator, mpeBoundary, mpeSeparator, newline] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [self setCustomRequestBodyData:body contentType:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary]];
+    [self.request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [self.request setHTTPShouldHandleCookies:NO];
+    [self setHeaderValue:@"Keep-Alive" forHeaderName:@"Connection"];
+    [self setHeaderValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", mpeBoundary] forHeaderName:@"Content-Type"];
+}
+
+- (NSData *)multiPartRequestBodyForkey:(NSString *)key mimeType:(NSString*)mimeType fileName:(NSString*)fileName file:(NSData *)fileData {
+    NSMutableData *body = [NSMutableData data];
+    NSString *newline = @"\r\n";
+    NSString *bodyContentDisposition = [NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\";",key];
+    
+    if (fileName) {
+        bodyContentDisposition = [bodyContentDisposition stringByAppendingFormat:@" filename=\"%@\"%@",fileName, newline];
+    }
+    
     [body appendData:[bodyContentDisposition dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[newline dataUsingEncoding:NSUTF8StringEncoding]];
