@@ -126,6 +126,7 @@
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
+#import <SalesforceSDKCore/SFSDKPushNotificationCryptoUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKSafeMutableDictionary.h>
 #import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>

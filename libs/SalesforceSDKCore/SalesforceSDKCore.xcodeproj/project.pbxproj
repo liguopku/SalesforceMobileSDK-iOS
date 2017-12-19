@@ -108,6 +108,11 @@
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
+		935BE6141FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 935BE6131FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		935BE6151FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 935BE6131FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h */; };
+		935BE62D1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 935BE62C1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m */; };
+		935BE62E1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 935BE62C1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m */; };
+		93A7FA151FE98F9E00A525B3 /* SFSDKPushNotificationCryptoUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A7FA141FE98F9E00A525B3 /* SFSDKPushNotificationCryptoUtilsTests.m */; };
 		A25EE80E1E57544800BDF5B1 /* CSFSalesforceActionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A25EE80C1E57543B00BDF5B1 /* CSFSalesforceActionTests.m */; };
 		B791409C1EC11ADE0051492F /* SFSDKWebViewStateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B791409D1EC11ADE0051492F /* SFSDKWebViewStateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B791409B1EC11ADE0051492F /* SFSDKWebViewStateManager.m */; };
@@ -1207,6 +1212,9 @@
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		935BE6131FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKPushNotificationCryptoUtils.h; sourceTree = "<group>"; };
+		935BE62C1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKPushNotificationCryptoUtils.m; sourceTree = "<group>"; };
+		93A7FA141FE98F9E00A525B3 /* SFSDKPushNotificationCryptoUtilsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSDKPushNotificationCryptoUtilsTests.m; path = SalesforceSDKCoreTests/SFSDKPushNotificationCryptoUtilsTests.m; sourceTree = SOURCE_ROOT; };
 		A25EE80C1E57543B00BDF5B1 /* CSFSalesforceActionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSFSalesforceActionTests.m; path = SalesforceSDKCoreTests/CSFSalesforceActionTests.m; sourceTree = SOURCE_ROOT; };
 		B7282F3F1D8C70E700475F79 /* SalesforceSDKCoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceSDKCoreTestApp.entitlements; sourceTree = "<group>"; };
 		B791409A1EC11ADE0051492F /* SFSDKWebViewStateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebViewStateManager.h; sourceTree = "<group>"; };
@@ -1469,6 +1477,7 @@
 				4F7EB3FA1BFFC87600768720 /* SFKeyStoreTests.m */,
 				4F7EB3FB1BFFC87600768720 /* SFPasscodeTests.m */,
 				4F7EB3FC1BFFC87600768720 /* SFSDKCryptoUtilsTests.m */,
+				93A7FA141FE98F9E00A525B3 /* SFSDKPushNotificationCryptoUtilsTests.m */,
 				4F7EB3FD1BFFC87600768720 /* SFSecurityTests.m */,
 				6FB714931CEA613D007D858C /* SFLoggerTests.m */,
 				010A9B511CC1A131002AF4D3 /* SFCryptoStreamTestUtils.h */,
@@ -1676,6 +1685,8 @@
 				4F96FD1B1BFD32140022F021 /* SFPBKDFData.m */,
 				4F96FD1C1BFD32140022F021 /* SFSDKCryptoUtils.h */,
 				4F96FD1D1BFD32140022F021 /* SFSDKCryptoUtils.m */,
+				935BE6131FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h */,
+				935BE62C1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m */,
 				4F96FD1E1BFD32140022F021 /* SFSecurityLockout+Internal.h */,
 				4F96FD1F1BFD32140022F021 /* SFSecurityLockout.h */,
 				4F96FD201BFD32140022F021 /* SFSecurityLockout.m */,
@@ -2224,6 +2235,7 @@
 				CE8EA2841D7F67FA00AAC74C /* NSURL+ActionValue.h in Headers */,
 				E1C80CDF1C5AEBFA001B3A21 /* SFLoginViewController.h in Headers */,
 				CE4CE3481C0E5252009F6029 /* SFOAuthCrypto.h in Headers */,
+				935BE6141FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h in Headers */,
 				CE88BD541D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h in Headers */,
 				CE4CE30D1C0E523B009F6029 /* NSData+SFAdditions.h in Headers */,
 				CE4CE39D1C0E5272009F6029 /* SFSDKTestRequestListener.h in Headers */,
@@ -2566,6 +2578,7 @@
 				CEA882EB1C18FB8E008D871B /* SFKeyStoreKey.h in Headers */,
 				E1C80D171C5C365D001B3A21 /* SFLoginViewController.h in Headers */,
 				CEA882B11C18FB28008D871B /* SFIdentityCoordinator+Internal.h in Headers */,
+				935BE6151FE875FE0037EBE4 /* SFSDKPushNotificationCryptoUtils.h in Headers */,
 				CEA882BB1C18FB4D008D871B /* SFOAuthCoordinator.h in Headers */,
 				E1C80D2C1C5C367D001B3A21 /* SFSDKLoginHostStorage.h in Headers */,
 				CEA8828B1C18FAAB008D871B /* NSString+SFAdditions.h in Headers */,
@@ -2992,6 +3005,7 @@
 				CE8EA3011D7F687600AAC74C /* TestDataAction.m in Sources */,
 				4F06AF891C49A18E00F70798 /* NSURL+SFStringUtilsTests.m in Sources */,
 				4F06AF8C1C49A18E00F70798 /* SalesforceSDKIdentityTests.m in Sources */,
+				93A7FA151FE98F9E00A525B3 /* SFSDKPushNotificationCryptoUtilsTests.m in Sources */,
 				4F06AF921C49A18E00F70798 /* SFPreferencesTests.m in Sources */,
 				010A9B5B1CC1A150002AF4D3 /* SFEncryptDecryptStreamTests.m in Sources */,
 				010A9B591CC1A147002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */,
@@ -3078,6 +3092,7 @@
 				CE4CE3601C0E526A009F6029 /* SFAuthErrorHandlerList.m in Sources */,
 				CE4CE3AA1C0E5279009F6029 /* SFManagedPreferences.m in Sources */,
 				CE4CE35E1C0E526A009F6029 /* SFAuthErrorHandler.m in Sources */,
+				935BE62D1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m in Sources */,
 				CE8EA2BD1D7F67FA00AAC74C /* CSFPrivateDefines.m in Sources */,
 				CE4CE37F1C0E526A009F6029 /* SFPasscodeProviderManager.m in Sources */,
 				CE8EA2BF1D7F67FA00AAC74C /* CSFDateValueTransformer.m in Sources */,
@@ -3219,6 +3234,7 @@
 				CEA882821C18FAAB008D871B /* NSURL+SFAdditions.m in Sources */,
 				CEA882D81C18FB8E008D871B /* SFAuthErrorHandlerList.m in Sources */,
 				CEA883221C18FC40008D871B /* SFManagedPreferences.m in Sources */,
+				935BE62E1FE876A90037EBE4 /* SFSDKPushNotificationCryptoUtils.m in Sources */,
 				CE8EA31F1D7F699100AAC74C /* CSFParameterStorage.m in Sources */,
 				CEA882D61C18FB8E008D871B /* SFAuthErrorHandler.m in Sources */,
 				CEA882F71C18FB8E008D871B /* SFPasscodeProviderManager.m in Sources */,
