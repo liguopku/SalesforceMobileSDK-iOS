@@ -23,6 +23,7 @@
  */
 
 #import "SFEncryptionKeyPair.h"
+#import "SFSDKCryptoUtils.h"
 
 // NSCoding constants
 static NSString * const kEncryptionPublicKeyCodingValue = @"com.salesforce.encryption.keypair.public";
@@ -64,44 +65,49 @@ static NSString * const kEncryptionPrivateKeyCodingValue = @"com.salesforce.encr
     SFEncryptionKeyPair *keyPairCopy = [[[self class] allocWithZone:zone] init];
     keyPairCopy.publicKey = [NSData dataWithData:self.publicKey];
     keyPairCopy.privateKey = [NSData dataWithData:self.privateKey];
-    return keyCopy;
+    return keyPairCopy;
 }
 
-- (NSString *)publicKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType
+- (NSString *)publicKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType)encodeType
 {
+    return [self keyAsStringWithEncodeType:encodeType isPublicKey:true];
+}
+
+- (NSString *)privateKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType)encodeType
+{
+    return [self keyAsStringWithEncodeType:encodeType isPublicKey:false];
+}
+
+- (NSString *)keyAsStringWithEncodeType:(SFEncryptionKeyEncodeType)encodeType isPublicKey:(BOOL)isPublicKey
+{
+    NSData *keyData = isPublicKey ? self.publicKey : self.privateKey;
     if (encodeType == SFEncryptionKeyPairEncodeTypeBase64) {
-        return [self.publicKey base64EncodedStringWithOptions: 0];
-    } else {
-        // nil for now
-        return nil;
+        return [keyData base64EncodedStringWithOptions: 0];
+    } else if (encodeType == SFEncryptionKeyPairEncodeTypeDER) {
+        NSData *pemData = [SFSDKCryptoUtils getRSAPublicKeyAsDER:keyData];
+        if (pemData != nil) {
+            return [pemData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+        }
     }
+    return nil;
 }
 
-- (NSString *)privateKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType
+- (BOOL)isEqual:(id)object
 {
-    if (encodeType == SFEncryptionKeyPairEncodeTypeBase64) {
-        return [self.privateKey base64EncodedStringWithOptions: 0];
-    } else {
-        // nil for now
-        return nil;
-    }}
+    if (object == self) return YES;
+    if (object == nil || ![object isKindOfClass:[SFEncryptionKeyPair class]]) return NO;
 
-//- (BOOL)isEqual:(id)object
-//{
-//    if (object == self) return YES;
-//    if (object == nil || ![object isKindOfClass:[SFEncryptionKey class]]) return NO;
-//
-//    SFEncryptionKey *objectAsKey = (SFEncryptionKey *)object;
-//    return ([self.key isEqualToData:objectAsKey.key] && [self.initializationVector isEqualToData:objectAsKey.initializationVector]);
-//}
-//
-//- (NSUInteger)hash
-//{
-//    NSUInteger result = 43;
-//    result = 43 * result + [_key hash];
-//    result = 43 * result + [_initializationVector hash];
-//    return result;
-//}
+    SFEncryptionKeyPair *objectAsKeyPair = (SFEncryptionKeyPair *)object;
+    return ([self.publicKey isEqualToData:objectAsKeyPair.publicKey] && [self.privateKey isEqualToData:objectAsKeyPair.privateKey]);
+}
+
+- (NSUInteger)hash
+{
+    NSUInteger result = 43;
+    result = 43 * result + [_publicKey hash];
+    result = 43 * result + [_privateKey hash];
+    return result;
+}
 
 @end
 

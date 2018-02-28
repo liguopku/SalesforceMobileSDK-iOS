@@ -92,13 +92,6 @@ static NSString * const kSFRSAPrivateKeyTagPrefix = @"com.salesforce.rsakey.priv
 + (nullable SecKeyRef)getRSAKeyRefWithTag:(NSString *)keyTagString keyLength:(NSUInteger)length;
 
 /**
- * Export keyData into DER format. Originally from https://blog.wingsofhermes.org/?p=42
- * @param keyData The public key raw data
- * @return The SecKeyRef, or `nil` if failed
- */
-+ (nullable NSData *)getRSAPublicKeyAsDER:(NSData *)keyData;
-
-/**
  Helper function for ASN.1 encoding. Originally from https://blog.wingsofhermes.org/?p=42
  @param buf The buffer to encode
  @param length The buffer length

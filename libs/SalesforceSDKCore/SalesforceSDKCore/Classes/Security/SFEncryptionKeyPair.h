@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, SFEncryptionKeyEncodeType) {
     SFEncryptionKeyPairEncodeTypeBase64,
     
     /**
-     The DER encode type, which apply DER format to encode key data
+     The DER format type with base64 encode, which apply DER format to key data before base64 encode
      */
     SFEncryptionKeyPairEncodeTypeDER,
 };
@@ -67,13 +67,13 @@ typedef NS_ENUM(NSUInteger, SFEncryptionKeyEncodeType) {
  The string representation of the publicKey data.
  @param encodeType The encode type used when translate nsdata to string.
  */
-@property (nonatomic, readonly, nullable) NSString *publicKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType;
+- (NSString *)publicKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType;
 
 /**
  The string representation of the privateKey data.
  @param encodeType The encode type used when translate nsdata to string.
  */
-@property (nonatomic, readonly, nullable) NSString *privateKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType;
+- (NSString *)privateKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType;
 
 @end
 

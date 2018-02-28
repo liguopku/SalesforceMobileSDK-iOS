@@ -163,6 +163,13 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  */
 + (nullable NSData*)decryptUsingRSAforData:(NSData * )data withKeyRef:(SecKeyRef)keyRef;
 
+/**
+ * Export keyData into DER format. Originally from https://blog.wingsofhermes.org/?p=42
+ * @param keyData The public key raw data
+ * @return The SecKeyRef, or `nil` if failed
+ */
++ (nullable NSData *)getRSAPublicKeyAsDER:(NSData *)keyData;
+
 @end
 
 NS_ASSUME_NONNULL_END
