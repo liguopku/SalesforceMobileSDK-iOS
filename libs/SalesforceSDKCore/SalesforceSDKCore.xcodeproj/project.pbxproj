@@ -107,6 +107,7 @@
 		93DECCA32047327D00B8001E /* SFEncryptionKeyPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 93DECC8B2047321900B8001E /* SFEncryptionKeyPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93DECCA5204732A400B8001E /* SFEncryptionKeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DECCA4204732A400B8001E /* SFEncryptionKeyPair.m */; };
 		93DECCA6204732A400B8001E /* SFEncryptionKeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DECCA4204732A400B8001E /* SFEncryptionKeyPair.m */; };
+		93DECCAE2047584200B8001E /* SFEncryptionKeyPairTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DECCAD2047584200B8001E /* SFEncryptionKeyPairTests.m */; };
 		B70135621F87F63900995171 /* SFSDKAuthErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B70135631F87F63900995171 /* SFSDKAuthErrorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B70135641F87F63900995171 /* SFSDKAuthErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */; };
@@ -1178,6 +1179,7 @@
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		93DECC8B2047321900B8001E /* SFEncryptionKeyPair.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFEncryptionKeyPair.h; sourceTree = "<group>"; };
 		93DECCA4204732A400B8001E /* SFEncryptionKeyPair.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFEncryptionKeyPair.m; sourceTree = "<group>"; };
+		93DECCAD2047584200B8001E /* SFEncryptionKeyPairTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFEncryptionKeyPairTests.m; sourceTree = "<group>"; };
 		B70135601F87F63900995171 /* SFSDKAuthErrorManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKAuthErrorManager.h; sourceTree = "<group>"; };
 		B70135611F87F63900995171 /* SFSDKAuthErrorManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SFSDKAuthErrorManager.m; sourceTree = "<group>"; };
 		B70986331F5331A600803FDE /* SFSDKOAuthClientConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKOAuthClientConfig.h; sourceTree = "<group>"; };
@@ -1426,6 +1428,7 @@
 				4F06AF721C49A16A00F70798 /* SFUserAccountManagerTests.m */,
 				4F7EB3F71BFFC87600768720 /* SDKCommonNSDataTests.m */,
 				4F7EB3F81BFFC87600768720 /* SFEncryptionKeyTests.m */,
+				93DECCAD2047584200B8001E /* SFEncryptionKeyPairTests.m */,
 				4F7EB3F91BFFC87600768720 /* SFKeyStoreManagerTests.m */,
 				4F7EB3FA1BFFC87600768720 /* SFKeyStoreTests.m */,
 				4F7EB3FB1BFFC87600768720 /* SFPasscodeTests.m */,
@@ -2842,6 +2845,7 @@
 				B7E8A2B21E770A57007C0D92 /* SFUserAccountPersisterEphemeral.m in Sources */,
 				CEB98EDE1F86E7770083AB9C /* SFSDKAuthClientTests.m in Sources */,
 				B7E8A2AA1E7455FA007C0D92 /* SFUserAccountManagerTests.m in Sources */,
+				93DECCAE2047584200B8001E /* SFEncryptionKeyPairTests.m in Sources */,
 				4F06AF901C49A18E00F70798 /* SFOAuthTestFlow.m in Sources */,
 				4F06AF8B1C49A18E00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
 				4F7EB41C1BFFC8D700768720 /* SFSecurityTests.m in Sources */,

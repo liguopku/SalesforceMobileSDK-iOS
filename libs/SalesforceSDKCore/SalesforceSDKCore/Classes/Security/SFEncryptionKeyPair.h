@@ -66,12 +66,14 @@ typedef NS_ENUM(NSUInteger, SFEncryptionKeyEncodeType) {
 /**
  The string representation of the publicKey data.
  @param encodeType The encode type used when translate nsdata to string.
+ @return string representation of the publicKey data.
  */
 - (NSString *)publicKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType;
 
 /**
  The string representation of the privateKey data.
  @param encodeType The encode type used when translate nsdata to string.
+ @return string representation of the privateKey data.
  */
 - (NSString *)privateKeyAsStringWithEncodeType:(SFEncryptionKeyEncodeType) encodeType;
 
