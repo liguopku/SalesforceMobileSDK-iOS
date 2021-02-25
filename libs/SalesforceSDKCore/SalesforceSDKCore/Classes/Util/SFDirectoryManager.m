@@ -63,10 +63,15 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
     BOOL isDirectory;
     BOOL fileExists = [manager fileExistsAtPath:directory isDirectory:&isDirectory];
     if (!fileExists) {
-        return [manager createDirectoryAtPath:directory
+        [SFSDKCoreLogger i:[self class] format:@"file does not exist at %@", directory];
+        BOOL result = [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
                                    attributes:@{NSFileProtectionKey: [SFFileProtectionHelper fileProtectionForPath:directory]}
                                         error:error];
+        if (!result) {
+            [SFSDKCoreLogger e:[self class] format:@"Unable to create directory at path %@: %@", directory, *error];
+        }
+        return result;
     } else if (fileExists && !isDirectory) {
         if (error) {
             *error = [[NSError alloc] initWithDomain:kDirectoryManagerErrorDomain code:100 userInfo:@{ NSLocalizedDescriptionKey: @"File exists at path and is not a directory" }];
@@ -84,21 +89,33 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
 
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components {
     NSString *directory;
-    
+
     if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled){
+        [SFSDKCoreLogger i:[self class] format:@"AppGroup is enabled"];
+        
         NSURL *sharedURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
         directory = [sharedURL path];
+        [SFSDKCoreLogger i:[self class] format:@"AppGroup is %@", [SFSDKDatasharingHelper sharedInstance].appGroupName];
+
+        [SFSDKCoreLogger i:[self class] format:@"sharedURL is %@", directory];
+
         directory = [directory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
         if(type == NSLibraryDirectory)
             directory = [directory stringByAppendingPathComponent:kSharedLibraryLocation];
+        [SFSDKCoreLogger i:[self class] format:@"AppGroup enabled directory is %@", directory];
+
     } else {
+        [SFSDKCoreLogger i:[self class] format:@"AppGroup is disabled"];
         NSArray *directories = NSSearchPathForDirectoriesInDomains(type, NSUserDomainMask, YES);
         if (directories.count > 0) {
             directory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
         }
+        [SFSDKCoreLogger i:[self class] format:@"AppGroup disabled directory is %@", directory];
     }
     
     if (directory) {
+        [SFSDKCoreLogger i:[self class] format:@"directory %@ is not nil", directory];
+
         if (orgId) {
             directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:orgId]];
             if (userId) {
@@ -108,13 +125,18 @@ static NSString * const kDirectoryManagerErrorDomain = @"com.salesforce.mobilesd
                 }
             }
         }
-        
+        [SFSDKCoreLogger i:[self class] format:@"directory with orgId and userId is %@", directory];
+
         for (NSString *component in components) {
             directory = [directory stringByAppendingPathComponent:component];
         }
+        [SFSDKCoreLogger i:[self class] format:@"directory with components is %@", directory];
+
         
         return directory;
     } else {
+        [SFSDKCoreLogger i:[self class] format:@"directory is nil", directory];
+
         return nil;
     }
 }

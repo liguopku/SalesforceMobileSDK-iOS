@@ -57,6 +57,8 @@ static NSMutableDictionary *instances = nil;
             if (nil == prefs) {
                 NSString *directory = [[SFDirectoryManager sharedManager] directoryForUser:user scope:scope type:NSLibraryDirectory components:nil];
                 NSError *error = nil;
+                [SFSDKCoreLogger i:[self class] format:@"Try to create scoped directory %@", directory];
+
                 if ([SFDirectoryManager ensureDirectoryExists:directory error:&error]) {
                     prefs = [[SFPreferences alloc] initWithPath:[directory stringByAppendingPathComponent:kPreferencesFileName]];
                     instances[key] = prefs;
