@@ -95,8 +95,13 @@
     NSError *error = nil;
     if (encryptedData) {
         NSString *filename = [self filenameForEvent:eventCopy.eventId];
+        [SFSDKAnalyticsLogger i:[self class] format:@"storeEvent filename is %@", filename];
         NSString *parentDir = [filename stringByDeletingLastPathComponent];
+        [SFSDKAnalyticsLogger i:[self class] format:@"storeEvent parentDir is %@", parentDir];
         [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes: @{ NSFileProtectionKey: NSFileProtectionCompleteUntilFirstUserAuthentication } error:&error];
+        if (error) {
+            [SFSDKAnalyticsLogger w:[self class] format:@"Fail to create parentDir: %@", error];
+        }
         [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
         if (error) {
             [SFSDKAnalyticsLogger w:[self class] format:@"Error occurred while writing to file: %@", error.localizedDescription];
